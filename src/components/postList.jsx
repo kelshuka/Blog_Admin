@@ -25,7 +25,8 @@ function PostList({ onEdit, onDelete }) {
             <ul>
                 {posts.map(post => (
                     <li key={post.id}>
-                        {post.title}
+                        <h3> {post.title} </h3>
+                        <p> {post.text}</p>
                         <button onClick={() => onEdit(post)}>Edit</button>
                         <button onClick={() => onDelete(post.id)}>Delete</button>
                     </li>

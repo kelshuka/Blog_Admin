@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axiosInstance from '../api';
 
 
@@ -10,14 +10,21 @@ function PostForm({ initialData = {}, onSubmitSuccess }) {
     const [text, setText] = useState(initialData.text || '');
     const [isPublished, setIsPublished] = useState(initialData.isPublished || false);
 
+    // Update the form state if initialData changes (i.e., when editing a post)
+    useEffect(() => {
+        setTitle(initialData.title || '');
+        setText(initialData.text || '');
+        setIsPublished(initialData.isPublished || false);
+    }, [initialData]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
         
-        const postData = { title, text};
+        const postData = { title, text, isPublished};
 
-        if (initialData.id) {
+        /* if (initialData.id) {
             postData.isPublished = isPublished;  // Include `isPublished` for update
-        }
+        } */
 
         const request = initialData.id
             ? axiosInstance.patch(`/api/posts/${initialData.id}`, postData)
@@ -53,16 +60,15 @@ function PostForm({ initialData = {}, onSubmitSuccess }) {
                     required
                 ></textarea>
             </div>
-            {initialData.id && (  // Show the `isPublished` checkbox only when editing
-                <div>
-                    <label>Publish</label>
-                    <input
-                        type="checkbox"
-                        checked={isPublished}
-                        onChange={(e) => setIsPublished(e.target.checked)}
-                    />
-                </div>
-            )}
+            <div>
+                <label>Publish</label>
+                <input
+                    type="checkbox"
+                    checked={isPublished}
+                    onChange={(e) => setIsPublished(e.target.checked)}
+                />
+            </div>
+            
             <button type="submit">{initialData.id ? 'Update' : 'Create'}</button>
         </form>
     );

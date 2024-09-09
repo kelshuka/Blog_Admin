@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PostList from './postList';
 import PostForm from './postForm';
+import AdminManagement from './AdminManagement';
 import axiosInstance from '../api';
 
 
@@ -27,16 +28,17 @@ function AdminDashboard() {
 
     return (
         <div>
-            <h2>Admin Dashboard</h2>
-            {editingPost ? (
-                <PostForm
-                    initialData={editingPost}
-                    onSubmitSuccess={handleSubmitSuccess}
-                />
-            ) : (
-                <PostForm onSubmitSuccess={handleSubmitSuccess} />
-            )}
+            <h1>Admin Dashboard</h1>
+            
+            <h2>{editingPost ? 'Edit Post' : 'Create a New Post'}</h2>
+            <PostForm
+                initialData={editingPost || {}}
+                onSubmitSuccess={handleSubmitSuccess}
+            />
+            
             <PostList onEdit={handleEdit} onDelete={handleDelete} />
+            
+            <AdminManagement />
         </div>
     );
 }

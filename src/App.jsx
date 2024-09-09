@@ -8,6 +8,8 @@ import SignUp from './components/signUp';
 
 function App() {
     const isAuthenticated = localStorage.getItem('adminToken');
+    const isAdmin = localStorage.getItem('userType') === 'Admin';
+
 
     return (
         <Router>
@@ -18,7 +20,7 @@ function App() {
                 />
                 <Route 
                     path="/dashboard" 
-                    element={isAuthenticated ? <AdminDashboard /> : <Navigate to="/login" />}
+                    element={isAuthenticated && isAdmin ? <AdminDashboard /> : <Navigate to="/login" />}// isAdmin was not included to make the first admin
                 />
                 <Route 
                     path="/logout" 

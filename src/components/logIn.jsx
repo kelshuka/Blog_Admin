@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../api';
 
 
 // My Back-end API URL
@@ -15,10 +15,12 @@ function AdminLogin() {
 
     const handleLogin = (e) => {
         e.preventDefault();
-        axios.post(`${BACKEND_URL}/log-in`, { username, password })
+        axiosInstance.post('/log-in', { username, password })
             .then(response => {
-                const { token } = response.data;
+                const { token, type } = response.data;
                 localStorage.setItem('adminToken', token);  // Store token in localStorage
+                localStorage.setItem('userType', type);  // Store user type
+                
                 alert('Login successful');
                 navigate('/dashboard');  // Redirect to admin dashboard
             })
