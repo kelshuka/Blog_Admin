@@ -1,5 +1,5 @@
 # Blog_Admin
-This is the content management system for the Blog App. The Blog App is written in a three parts: a back-end in written in Express NodeJS, a front-end for the content management and another React front-end which is the client side.
+This is the content management system for the Blog App. The Blog App is written in three parts: a back-end written in Express NodeJS, a front-end for the content management and another React front-end which is the client side.
 This part gives the admin sole authorization to perform CRUD actions on posts. The paths are:
 - /sign-up
 - /login
