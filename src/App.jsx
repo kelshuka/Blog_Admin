@@ -1,42 +1,50 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import './App.css'
-import AdminDashboard from './components/AdminDashboard';
-import AdminLogin from './components/logIn';
-import Logout from './components/logOut';
-import SignUp from './components/signUp';
+
+import { Link } from 'react-router-dom'
+import { Outlet} from 'react-router-dom'
+
+
+
+
 
 function App() {
-    const isAuthenticated = localStorage.getItem('adminToken');
-    const isAdmin = localStorage.getItem('userType') === 'Admin';
 
+  return (
+    <div className="flex flex-col min-h-screen">
+      <header className="fixed w-full top-0 bg-gray-800 text-white p-4 flex justify-between items-center shadow-md z-50">
+        
 
-    return (
-        <Router>
-            <Routes>
-                <Route 
-                    path="/login" 
-                    element={isAuthenticated ? <Navigate to="/dashboard" /> : <AdminLogin />}  // No need for onLogin
-                />
-                <Route 
-                    path="/dashboard" 
-                    element={isAuthenticated && isAdmin ? <AdminDashboard /> : <Navigate to="/login" />}// isAdmin was not included to make the first admin
-                />
-                <Route 
-                    path="/logout" 
-                    element={isAuthenticated ? <Logout /> : <Navigate to="/login" />}
-                />
-                <Route 
-                    path="/sign-up" 
-                    element={<SignUp />} 
-                />
-                <Route 
-                    path="/" 
-                    element={<Navigate to="/login" />} 
-                />
-            </Routes>
-        </Router>
-    );
+        <h1 className="text-2xl font-bold">World Reality Blog</h1>
+        <nav className="flex">
+          <div >
+            <Link to="/homepage" className="mr-4 hover:underline"> Home </Link> 
+            <Link to="/blogPage/dashboard" className="mr-4 hover:underline"> Posts </Link> 
+          </div>
+
+          <div >
+            <Link to="/blogPage/logout" className="hover:underline"> logout </Link> 
+          </div>
+      
+        </nav>
+
+      </header>
+      
+      <main className="flex-grow pt-20 pb-16 px-4">
+        
+        <section className='blogs'>
+          
+          < Outlet />
+
+        </section>
+
+      </main>
+
+      <footer className="fixed bottom-0 w-full bg-gray-800 text-white text-center p-2">
+
+        <p>&copy; 2024 World Reality Blog. All rights reserved.</p>
+
+      </footer>
+    </div>
+  )
 }
 
-export default App;
+export default App

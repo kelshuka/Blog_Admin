@@ -50,6 +50,7 @@ function PostForm({ initialData = {}, onSubmitSuccess }) {
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     required
+                    className="mt-1 block w-full border border-gray-300 p-2 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                 />
             </div>
             <div>
@@ -58,6 +59,7 @@ function PostForm({ initialData = {}, onSubmitSuccess }) {
                     value={text}
                     onChange={(e) => setText(e.target.value)}
                     required
+                    className="mt-1 block w-full border border-gray-300 p-2 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                 ></textarea>
             </div>
             <div>

@@ -1,46 +1,74 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axiosInstance from '../api'; 
+
+
 import PostList from './postList';
 import PostForm from './postForm';
 import AdminManagement from './AdminManagement';
-import axiosInstance from '../api';
+
 
 
 function AdminDashboard() {
-    const [editingPost, setEditingPost] = useState(null);  // Track the post being edited
+  const navigate = useNavigate();
+  const adminToken = localStorage.getItem('adminToken'); 
 
-    const handleEdit = (post) => {
-        setEditingPost(post);
-    };
+  const [editingPost, setEditingPost] = useState(null);  
 
-    const handleDelete = (postId) => {
-        axiosInstance.delete(`/api/posts/${postId}`)
-            .then(() => {
-                alert('Post deleted successfully!');
-            })
-            .catch(error => {
-                console.error('Error deleting post:', error);
-            });
-    };
+  useEffect(() => {
+    if (!adminToken) {
+      navigate('/login');
+    }
+  }, [adminToken, navigate]);
 
-    const handleSubmitSuccess = () => {
-        setEditingPost(null);  // Clear the form after successful submit
-    };
+  // Fetch posts or any admin data
+  useEffect(() => {
+    axiosInstance.get('/api/posts') 
+      .then(response => {
+        console.log('Fetched posts:', response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
 
-    return (
-        <div>
-            <h1>Admin Dashboard</h1>
-            
-            <h2>{editingPost ? 'Edit Post' : 'Create a New Post'}</h2>
-            <PostForm
-                initialData={editingPost || {}}
-                onSubmitSuccess={handleSubmitSuccess}
-            />
-            
-            <PostList onEdit={handleEdit} onDelete={handleDelete} />
-            
-            <AdminManagement />
-        </div>
-    );
+  if (!adminToken) {
+    return <p>Redirecting to login...</p>;
+  }
+
+  const handleEdit = (post) => {
+    setEditingPost(post);
+  };
+
+  const handleDelete = (postId) => {
+      axiosInstance.delete(`/api/posts/${postId}`)
+          .then(() => {
+              alert('Post deleted successfully!');
+          })
+          .catch(error => {
+              console.error('Error deleting post:', error);
+          });
+  };
+
+  const handleSubmitSuccess = () => {
+      setEditingPost(null); 
+  };
+
+  return (
+    <div className='w-full'>
+      <h1 className="text-3xl font-bold mb-4 text-center font-style">Admin Dashboard</h1>
+      
+      <h2>{editingPost ? 'Edit Post' : 'Create a New Post'}</h2>
+      <PostForm
+          initialData={editingPost || {}}
+          onSubmitSuccess={handleSubmitSuccess}
+      />
+      
+      <PostList onEdit={handleEdit} onDelete={handleDelete} />
+      
+      <AdminManagement />
+    </div>
+  );
 }
 
 export default AdminDashboard;
