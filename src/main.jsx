@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 
 import PostList from "./components/postList";
-import Login from "./components/logIn";
+import AdminLogin from './components/logIn.jsx';
 import Logout from "./components/logOut";
 import SignUp from "./components/signUp";
 
@@ -25,7 +25,7 @@ const AppRouter = () => {
       path: "/",
       element: <HomePage />,
       children:[
-        {path: "login", element: <Login />},
+        {path: "login", element: <AdminLogin />},
         {path: "signup", element: <SignUp />},
       ],
       errorElement: <PageNotFound />,
@@ -34,7 +34,7 @@ const AppRouter = () => {
     path: "/homepage",
     element: <HomePage />,
     children:[
-      {path: "login", element: <Login />},
+      {path: "login", element: <AdminLogin />},
       {path: "signup", element: <SignUp />},
     ],
 },
